@@ -1,0 +1,44 @@
+Clean Data
+EDA
+Forecasting - Using different techniques of Time Series
+Model Fitting
+
+# dealing with negative values in active cases (Min in active is -6), this shows that any of the confirmed or deaths or 
+# recovered are having negative values 
+num1 = clean_data[['confirmed','deaths','recovered','active']]._get_numeric_data()
+num1[num1 < 0] = 0
+
+#Missing Values
+clean_data.isnull().sum().to_frame('nulls')
+
+
+display(clean_data.shape)
+display(clean_data.info())
+display(clean_data.head())
+display(clean_data.describe())
+
+
+Line Graph
+fig = px.line(data_cfn, x="date", y="mortality", 
+              title=f"Worldwide Mortality Rate as on {max_date}")
+fig.show()
+
+Melt Line Graph
+
+data_cfn_melt = pd.melt(data_cfn, id_vars=['date'], value_vars=['confirmed', 'deaths', 'new cases'])
+data_cfn_melt
+
+fig = px.line(data_cfn_melt, x="date", y="value", color='variable', 
+              title=f"Worldwide Confirmed/Fatalities & New Cases as on {max_date} on Log Scale",log_y=True)
+fig.show()
+
+data_pop["urban_pop"]= data_pop["urban_pop"].str.split("%", n = 1, expand = True)
+
+data_ir_sort_melt = pd.melt(data_ir_sort, id_vars=['country'], value_vars=['confirmed','population',
+                                                                           'infectionRate','mortalityRate',
+                                                                          'recovered','density','age','urban percentage'])
+                                                                          
+                                                                          
+data.drop(columns=['confirmed_x','confirmed_y','age_x','deaths_x','recovered_x','population_x','density_x',
+                   'urban percentage_x','deaths_y','recovered_y','density_y','age_y','urban percentage_y',
+                  'infectionRate_x','mortalityRate_x','population_y','icu_x'],axis=0)
